@@ -28,8 +28,6 @@ canvas.addEventListener('mousemove', e => {
     mouse.dy = Math.abs(mouse.y - e.y)
     mouse.x = e.x
     mouse.y = e.y
-    if (isDrawing)
-        draw()
 })
 
 
@@ -50,6 +48,8 @@ class Particle {
         this.size = Math.random() * 10 + 1
         this.speedX = 0.1 * (Math.random() * 2 - 1) * speed
         this.speedY = 0.1 * (Math.random() * 2 - 1) * speed
+        this.forceX = 0
+        this.forceY = 0
         this.color = `hsl(${lastColor},100%,50%)`
     }
 
@@ -71,13 +71,22 @@ class Particle {
 
 
     update() {
+        const r_sqr = Math.pow(mouse.x - this.x, 2) + Math.pow(mouse.y - this.y, 2)
+        const forceFactor = 10
+
+        this.forceX = -forceFactor * (this.x - mouse.x) / r_sqr
+        this.forceY = -forceFactor * (this.y - mouse.y) / r_sqr
+
+
+        this.speedX += this.forceX
+        this.speedY += this.forceY
         this.x += this.speedX
         this.y += this.speedY
 
-        //  if (this.size > 0.2)
-        //   //   this.size -= 0.01
-        //  else
-        //     this.size = 0
+        if (this.size > 0.2)
+            this.size -= 0.01
+        else
+            this.size = 0
     }
 
     draw() {
@@ -95,8 +104,8 @@ function drawEdges() {
                 return
             const { x, y } = self
             const dist = Math.sqrt(Math.pow(x - p.x, 2) + Math.pow(y - p.y, 2))
-            if (dist < Math.max(p.size, this.size)) {
-                //alert("yee")
+            if (dist < Math.max(p.size, self.size)) {
+                alert("yee")
                 const bigOne = p.size > this.size ? p : this
                 const smalOne = p.size < this.size ? p : this
                 bigOne.size = Math.sqrt(p.size * p.size + this.size * this.size)
@@ -133,7 +142,7 @@ function animate() {
         if (!p.isVisable())
             p.respawn()
     })
-    drawEdges()
+    //drawEdges()
     particlesArr.forEach(p => p.draw())
     requestAnimationFrame(animate);
 }
