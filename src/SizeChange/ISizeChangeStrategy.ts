@@ -1,5 +1,4 @@
-import { Particle } from "../Particle";
-
 export interface ISizeCahngeStrategy {
-  getNewSize(particle: Particle): number;
+  readonly initialSize: number;
+  getNextSize(deltaTimeMs: number, currentSize: number): number;
 }
