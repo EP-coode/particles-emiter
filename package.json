@@ -1,9 +1,19 @@
 {
   "name": "@ep44/particles-emmiter",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
-  "keywords": ["particles", "emmiter", "playground"],
-  "repository": "https://github.com/EP-coode/some-particles",
+  "keywords": [
+    "particles",
+    "emmiter",
+    "playground"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/EP-coode/particles-emmiter"
+  },
+  "publishConfig": {
+    "registry": "https://www.npmjs.com/package/@ep44"
+  },
   "main": "ParticlesEmmiter.cjs",
   "types": "./index.d.ts",
   "module": "./dist/ParticlesEmmiter.js",
