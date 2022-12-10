@@ -68,7 +68,7 @@ export class ParticlesSystem {
   private lastFrameTime?: number;
   private particles: Particle[];
   private ctx: CanvasRenderingContext2D | null;
-  private state: "running" | "iddle";
+  // private state: "running" | "iddle";
   private animationFrame: number | null;
   private forceSources: IForceSource[];
   private config: SystemConfig;
@@ -97,7 +97,7 @@ export class ParticlesSystem {
     this.mouse = massiveMouse;
 
     this.canRespawn = false;
-    this.state = "iddle";
+    // this.state = "iddle";
     this.animationFrame = null;
     this.particles = [];
     this.forceSources = [];
@@ -229,12 +229,12 @@ export class ParticlesSystem {
   start() {
     this.mouse.observePositionChange();
     this.animationFrame = requestAnimationFrame(this.update.bind(this));
-    this.state = "running";
+    // this.state = "running";
   }
 
   stop() {
     this.mouse.unObservePositionChange();
     if (this.animationFrame) cancelAnimationFrame(this.animationFrame);
-    this.state = "iddle";
+    // this.state = "iddle";
   }
 }

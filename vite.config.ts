@@ -1,13 +1,19 @@
-// vite.config.ts
-const path = require('path');
-const { defineConfig } = require('vite');
+import { defineConfig } from "vite";
+import dts from "vite-plugin-dts";
 
-module.exports = defineConfig({
+
+export default defineConfig({
   build: {
+    emptyOutDir: false,
+    outDir: "dist",
+    sourcemap: true,
     lib: {
-      entry: path.resolve(__dirname, 'src/index.ts'),
-      name: 'ParticlesEmmiter',
-      fileName: (format) => `ParticlesEmmiter.${format}.js`,
+      entry: {
+        ParticlesEmmiter: "./src/index.ts",
+        SizeChange: "./src/SizeChange/index.ts",
+        ColorSelection: "./src/ColorSelection/index.ts"
+      },
+      formats: ["es", "cjs"],
     },
-  },
+  }
 });

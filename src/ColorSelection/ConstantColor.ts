@@ -5,10 +5,7 @@ export class ConstantColor implements IColorSelectionStrategy {
   getInitialColor(): [number, number, number] {
     return this.hslaColor;
   }
-  getNextHslClor(
-    deltaTime: number,
-    currentColor: [number, number, number]
-  ): [number, number, number] {
+  getNextHslClor(): [number, number, number] {
     return this.hslaColor;
   }
 }
