@@ -12,7 +12,7 @@
     "url": "https://github.com/EP-coode/particles-emmiter"
   },
   "publishConfig": {
-    "registry": "https://www.npmjs.com/package/@ep44"
+    "access": "public"
   },
   "main": "ParticlesEmmiter.cjs",
   "types": "./index.d.ts",
