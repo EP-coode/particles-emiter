@@ -15,20 +15,8 @@
     "access": "public",
     "@ep44:particles-emmiter": "https://www.npmjs.com/package/"
   },
-  "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "type": "./dist/index.d.ts"
-    },
-    "./SizeChange": {
-      "import": "./dist/SizeChange/index.js",
-      "type": "./dist/SizeChange/index.d.ts"
-    },
-    "./ColorSelection": {
-      "import": "./dist/ColorSelection/index.js",
-      "type": "./dist/ColorSelection/index.d.ts"
-    }
-  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "license": "MIT",
   "files": [
     "dist"
