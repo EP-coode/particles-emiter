@@ -1,6 +1,6 @@
 {
   "name": "@ep44/particles-emmiter",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "type": "module",
   "keywords": [
     "particles",
@@ -17,18 +17,15 @@
   },
   "exports": {
     ".": {
-      "import": "./dist/ParticlesEmmiter.js",
-      "require": "./dist/ParticlesEmmiter.cjs",
+      "import": "./dist/index.js",
       "type": "./dist/index.d.ts"
     },
     "./SizeChange": {
-      "import": "./dist/SizeChange.js",
-      "require": "./dist/SizeChange.cjs",
+      "import": "./dist/SizeChange/index.js",
       "type": "./dist/SizeChange/index.d.ts"
     },
     "./ColorSelection": {
-      "import": "./dist/ColorSelection.js",
-      "require": "./dist/ColorSelection.cjs",
+      "import": "./dist/ColorSelection/index.js",
       "type": "./dist/ColorSelection/index.d.ts"
     }
   },
@@ -38,7 +35,7 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "tsc",
     "preview": "vite preview"
   },
   "devDependencies": {
