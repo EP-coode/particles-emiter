@@ -1,6 +1,6 @@
 {
   "name": "@ep44/particles-emmiter",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "type": "module",
   "keywords": [
     "particles",
@@ -16,7 +16,7 @@
     "@ep44:particles-emmiter": "https://www.npmjs.com/package/"
   },
   "main": "ParticlesEmmiter.cjs",
-  "types": "./index.d.ts",
+  "types": "./dist/index.d.ts",
   "module": "./dist/ParticlesEmmiter.js",
   "exports": {
     ".": {
@@ -37,7 +37,7 @@
   },
   "license": "MIT",
   "files": [
-    "dist/*"
+    "dist"
   ],
   "scripts": {
     "dev": "vite",
