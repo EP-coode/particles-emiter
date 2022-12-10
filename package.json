@@ -12,7 +12,8 @@
     "url": "https://github.com/EP-coode/particles-emmiter"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "@ep44:particles-emmiter": "https://www.npmjs.com/package/"
   },
   "main": "ParticlesEmmiter.cjs",
   "types": "./index.d.ts",
