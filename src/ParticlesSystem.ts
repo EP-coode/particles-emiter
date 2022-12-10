@@ -1,4 +1,4 @@
-import { ConstantColor } from "./ColorSelection/ConstantColor";
+import { ColorRangeSelection } from "./ColorSelection/ColorRangeSelection";
 import { IColorSelectionStrategy } from "./ColorSelection/IColorSelectionStrategy";
 import { AmbientForce } from "./ForceField/AmbientForce";
 import { IForceSource } from "./ForceField/IForceSource";
@@ -17,13 +17,19 @@ export enum SpawnStrategy {
 export const G = 1;
 
 export interface SystemConfig {
+  mouse: {
+    forceMultipler: [number, number];
+    mass: number;
+  };
   particles: {
     count: number;
     render: boolean;
     spanwStrategy: SpawnStrategy;
-    mouseForceMultipler: [number, number];
     sizeChangeStrategy: ISizeCahngeStrategy;
     colorChangeStrategy: IColorSelectionStrategy;
+    avgMass: number;
+    respanwSpeedRange: number;
+    respanwSizeRange: number;
   };
   edges: {
     render: boolean;
@@ -33,23 +39,28 @@ export interface SystemConfig {
 }
 
 const defaultConfig: SystemConfig = {
+  mouse: {
+    forceMultipler: [1, 1],
+    mass: 20,
+  },
   particles: {
-    count: 5000,
-    mouseForceMultipler: [-1, -1],
+    count: 2000,
     render: true,
-    sizeChangeStrategy: new LinearChange(0, 10),
-    colorChangeStrategy: new ConstantColor([250, 100, 50]),
+    sizeChangeStrategy: new LinearChange(-20),
+    colorChangeStrategy: new ColorRangeSelection([160, 100, 50], 160, 230, 10),
     spanwStrategy: SpawnStrategy.AT_MOUSE,
+    avgMass: 10,
+    respanwSpeedRange: 10,
+    respanwSizeRange: 10,
   },
   edges: {
     render: false,
   },
-  ambientForce: [0, 0.5],
+  ambientForce: [0.4, -0.3],
   speed: 0.5,
 };
 
 /* TODO:
-  2. initialization
   3. edges
 */
 export class ParticlesSystem {
@@ -62,37 +73,43 @@ export class ParticlesSystem {
   private forceSources: IForceSource[];
   private config: SystemConfig;
   private mouse: Mouse;
+  private canRespawn: boolean;
 
   constructor(
     private canvas: HTMLCanvasElement,
     config: Partial<SystemConfig>
   ) {
     this.config = Object.assign({}, defaultConfig, config);
-    this.ctx = canvas.getContext("2d");
 
+    this.ctx = canvas.getContext("2d");
     this.resizeObserver = new ResizeObserver(() => {
       const boundingRect = canvas.getBoundingClientRect();
       canvas.width = boundingRect.width;
       canvas.height = boundingRect.height;
     });
-    // canvas.addEventListener();
+    this.resizeObserver.observe(canvas);
+
     const massiveMouse = new MassiveMouse(
       canvas,
-      5,
-      this.config.particles.mouseForceMultipler
+      10,
+      this.config.mouse.forceMultipler
     );
     this.mouse = massiveMouse;
-    this.resizeObserver.observe(canvas);
+
+    this.canRespawn = false;
+    this.state = "iddle";
+    this.animationFrame = null;
     this.particles = [];
+    this.forceSources = [];
 
     for (let i = 0; i < this.config.particles.count; i++) {
       const particle = new Particle(
-        [100, 100, 500],
+        this.config.particles.colorChangeStrategy.getInitialColor(),
+        0,
         10,
-        10,
-        [0, 0],
-        [0, 0],
-        [0, 0],
+        [-1000, -1000],
+        [-1000, -1000],
+        [-1000, -1000],
         this.config.particles.colorChangeStrategy,
         this.config.particles.sizeChangeStrategy
       );
@@ -101,10 +118,6 @@ export class ParticlesSystem {
       this.respawnParticle(particle);
     }
 
-    this.state = "iddle";
-    this.animationFrame = null;
-
-    this.forceSources = [];
     if (this.config.ambientForce) {
       this.forceSources.push(new AmbientForce(this.config.ambientForce));
     }
@@ -134,33 +147,31 @@ export class ParticlesSystem {
     return true;
   }
 
-  private respawnParticle(particle: Particle, randomnessScale = 10) {
+  private starved(particle: Particle): boolean {
+    return particle.size < 0;
+  }
+
+  private respawnParticle(particle: Particle) {
     const {
-      particles: {
-        spanwStrategy,
-        sizeChangeStrategy: { initialSize },
-      },
+      particles: { spanwStrategy, respanwSizeRange },
     } = this.config;
-    particle.size = initialSize;
+    // PREVENT PULSING
+    // TODO: Distribution system
+    particle.size = respanwSizeRange - (Math.random() * respanwSizeRange) / 2;
+
     switch (spanwStrategy) {
       case SpawnStrategy.AT_MOUSE:
-        const [mx, my] = this.mouse.position ?? [0, 0];
-        particle.position = [
-          mx + Math.random() * randomnessScale - randomnessScale / 2,
-          my + Math.random() * randomnessScale - randomnessScale / 2,
-        ];
+        particle.position = this.mouse.position ?? [0, 0];
         break;
       case SpawnStrategy.RANDOM:
         const { width, height } = this.canvas;
         particle.position = [width * Math.random(), height * Math.random()];
     }
-    particle.force = [
-      Math.random() * randomnessScale - randomnessScale / 2,
-      Math.random() * randomnessScale - randomnessScale / 2,
-    ];
+    particle.force = [0, 0];
+    const speedRange = this.config.particles.respanwSpeedRange;
     particle.velocity = [
-      Math.random() * randomnessScale - randomnessScale / 2,
-      Math.random() * randomnessScale - randomnessScale / 2,
+      Math.random() * speedRange - speedRange / 2,
+      Math.random() * speedRange - speedRange / 2,
     ];
   }
 
@@ -194,16 +205,21 @@ export class ParticlesSystem {
 
     for (let i = 0; i < this.particles.length; i++) {
       const particle = this.particles[i];
-      if (!this.isVisable(particle)) this.respawnParticle(particle);
+      const notRendereble = !this.isVisable(particle) || this.starved(particle);
+      if (notRendereble && this.canRespawn) this.respawnParticle(particle);
+      if (!notRendereble) particle.draw(this.ctx);
       particle.force = this.getNetForce(particle);
       particle.update(deltaT);
-      particle.draw(this.ctx);
     }
 
     this.renderMouse();
 
     this.lastFrameTime = new Date().getTime();
     this.animationFrame = requestAnimationFrame(this.update.bind(this));
+  }
+
+  setRespanw(canRespawn = true) {
+    this.canRespawn = canRespawn;
   }
 
   dispose() {

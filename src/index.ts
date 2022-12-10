@@ -1,2 +1,1 @@
-export { Particle } from "./Particle";
-export { ParticlesSystem } from "./ParticlesSystem";
+export { ParticlesSystem, type SystemConfig } from "./ParticlesSystem";

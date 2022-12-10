@@ -3,4 +3,5 @@ export interface IColorSelectionStrategy {
     deltaTime: number,
     currentHslColor: [number, number, number]
   ): [number, number, number];
+  getInitialColor(): [number, number, number];
 }
