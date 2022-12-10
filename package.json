@@ -1,7 +1,9 @@
 {
-  "name": "@ep/particles-emmiter",
-  "version": "0.0.0",
+  "name": "@ep44/particles-emmiter",
+  "version": "0.0.1",
   "type": "module",
+  "keywords": ["particles", "emmiter", "playground"],
+  "repository": "https://github.com/EP-coode/some-particles",
   "main": "ParticlesEmmiter.cjs",
   "types": "./index.d.ts",
   "module": "./dist/ParticlesEmmiter.js",
