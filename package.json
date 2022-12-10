@@ -15,24 +15,21 @@
     "access": "public",
     "@ep44:particles-emmiter": "https://www.npmjs.com/package/"
   },
-  "main": "ParticlesEmmiter.cjs",
-  "types": "./dist/index.d.ts",
-  "module": "./dist/ParticlesEmmiter.js",
   "exports": {
     ".": {
       "import": "./dist/ParticlesEmmiter.js",
       "require": "./dist/ParticlesEmmiter.cjs",
-      "type": "./dist/ParticlesEmmiter.d.ts"
+      "type": "./dist/index.d.ts"
     },
     "./SizeChange": {
       "import": "./dist/SizeChange.js",
       "require": "./dist/SizeChange.cjs",
-      "type": "./dist/SizeChange.d.ts"
+      "type": "./dist/SizeChange/index.d.ts"
     },
     "./ColorSelection": {
       "import": "./dist/ColorSelection.js",
       "require": "./dist/ColorSelection.cjs",
-      "type": "./dist/ColorSelection.d.ts"
+      "type": "./dist/ColorSelection/index.d.ts"
     }
   },
   "license": "MIT",
@@ -41,7 +38,7 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "devDependencies": {

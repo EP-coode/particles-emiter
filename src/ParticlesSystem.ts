@@ -38,7 +38,7 @@ export interface SystemConfig {
   speed: number;
 }
 
-const defaultConfig: SystemConfig = {
+export const defaultConfig: SystemConfig = {
   mouse: {
     forceMultipler: [1, 1],
     mass: 20,
@@ -175,21 +175,21 @@ export class ParticlesSystem {
     ];
   }
 
-  private renderMouse() {
-    if (!this.ctx || !this.mouse) return;
-    if (!this.mouse.position) return;
-    this.ctx.fillStyle = `hsl(10,100%,50%)`;
-    this.ctx.beginPath();
-    this.ctx.arc(
-      this.mouse.position[0],
-      this.mouse.position[1],
-      10,
-      0,
-      Math.PI * 2
-    );
-    this.ctx.fill();
-    this.ctx.closePath();
-  }
+  // private renderMouse() {
+  //   if (!this.ctx || !this.mouse) return;
+  //   if (!this.mouse.position) return;
+  //   this.ctx.fillStyle = `hsl(10,100%,50%)`;
+  //   this.ctx.beginPath();
+  //   this.ctx.arc(
+  //     this.mouse.position[0],
+  //     this.mouse.position[1],
+  //     10,
+  //     0,
+  //     Math.PI * 2
+  //   );
+  //   this.ctx.fill();
+  //   this.ctx.closePath();
+  // }
 
   private update() {
     if (!this.ctx) return;
@@ -212,7 +212,7 @@ export class ParticlesSystem {
       particle.update(deltaT);
     }
 
-    this.renderMouse();
+    // this.renderMouse();
 
     this.lastFrameTime = new Date().getTime();
     this.animationFrame = requestAnimationFrame(this.update.bind(this));

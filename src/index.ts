@@ -1,1 +1,6 @@
-export { ParticlesSystem, type SystemConfig } from "./ParticlesSystem";
+export {
+  ParticlesSystem,
+  type SystemConfig,
+  defaultConfig,
+  SpawnStrategy,
+} from "./ParticlesSystem";

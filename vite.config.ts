@@ -8,9 +8,9 @@ export default defineConfig({
     outDir: "dist",
     lib: {
       entry: {
-        ParticlesEmmiter: resolve(__dirname, "src/index.ts"),
-        SizeChange: resolve(__dirname, "src/SizeChange/index.ts"),
-        ColorSelection: resolve(__dirname, "src/ColorSelection/index.ts"),
+        ParticlesEmmiter: "./src/index.ts",
+        SizeChange: "./src/SizeChange/index.ts",
+        ColorSelection: "./src/ColorSelection/index.ts",
       },
       formats: ["es", "cjs"],
     },
