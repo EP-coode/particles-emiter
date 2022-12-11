@@ -1,7 +1,6 @@
 {
   "name": "@ep44/particles-emmiter",
-  "version": "0.0.11",
-  "type": "module",
+  "version": "0.0.12",
   "keywords": [
     "particles",
     "emmiter",
@@ -15,14 +14,8 @@
     "access": "public",
     "@ep44:particles-emmiter": "https://www.npmjs.com/package/"
   },
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    "./package.json": "./package.json",
-    ".": {
-      "import": "./dist/index.js"
-    }
-  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "license": "MIT",
   "files": [
     "dist"
