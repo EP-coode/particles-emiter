@@ -37,7 +37,8 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc",
+    "build:preview": "vite build",
+    "build:lib": "tsc",
     "preview": "vite preview"
   },
   "devDependencies": {
