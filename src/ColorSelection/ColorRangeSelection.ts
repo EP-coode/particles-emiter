@@ -9,7 +9,7 @@ export class ColorRangeSelection implements IColorSelectionStrategy {
   ) {}
   getInitialColor(): [number, number, number] {
     return [
-      Math.random() * this.startColorHsl[0] - this.startColorHsl[0] / 2,
+      this.startColorHsl[0],
       this.startColorHsl[1],
       this.startColorHsl[2],
     ];

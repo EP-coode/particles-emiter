@@ -36,6 +36,10 @@ export class Particle implements IMassiveBody, IForceSource {
     this._size = newSize;
   }
 
+  public set currentColor(newColor: [number, number, number]) {
+    this._currentColor = newColor;
+  }
+
   public get position() {
     return this._pos;
   }
@@ -54,6 +58,14 @@ export class Particle implements IMassiveBody, IForceSource {
 
   public get size() {
     return this._size;
+  }
+
+  public get currentColor() {
+    return this._currentColor;
+  }
+
+  public get colorSelectionStrategy() {
+    return this._colorSelectionStrategy;
   }
 
   // -------------- Getters and Setters -----------------

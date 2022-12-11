@@ -46,10 +46,10 @@ export const defaultConfig: SystemConfig = {
     render: false,
   },
   particles: {
-    count: 2000,
+    count: 1000,
     render: true,
-    sizeChangeStrategy: new LinearChange(-20),
-    colorChangeStrategy: new ColorRangeSelection([160, 100, 50], 160, 230, 10),
+    sizeChangeStrategy: new LinearChange(-15),
+    colorChangeStrategy: new ColorRangeSelection([49, 100, 50], 0, 50, -50),
     spanwStrategy: SpawnStrategy.AT_MOUSE,
     avgMass: 10,
     respanwSpeedRange: 10,
@@ -178,6 +178,7 @@ export class ParticlesSystem {
       Math.random() * speedRange - speedRange / 2,
       Math.random() * speedRange - speedRange / 2,
     ];
+    particle.currentColor = particle.colorSelectionStrategy.getInitialColor();
   }
 
   private renderMouse() {
