@@ -37,7 +37,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build:preview": "vite build",
+    "build:azure": "vite build",
     "build:lib": "tsc",
     "preview": "vite preview"
   },
