@@ -1,6 +1,6 @@
 {
   "name": "@ep44/particles-emmiter",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "keywords": [
     "particles",
     "emmiter",
@@ -21,18 +21,18 @@
     "dist/**/*"
   ],
   "exports": {
-    "./package.json": "package.json",
+    "./package.json": "./package.json",
     ".": {
-      "import": "dist/index.js",
-      "types": "dist/index.d.ts"
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
     },
     "./SizeChange": {
-      "import": "dist/SizeChange/index.js",
-      "types": "dist/SizeChange/index.d.ts"
+      "import": "./dist/SizeChange/index.js",
+      "types": "./dist/SizeChange/index.d.ts"
     },
     "./ColorSelection": {
-      "import": "dist/ColorSelection/index.js",
-      "types": "dist/ColorSelection/index.d.ts"
+      "import": "./dist/ColorSelection/index.js",
+      "types": "./dist/ColorSelection/index.d.ts"
     }
   },
   "scripts": {
