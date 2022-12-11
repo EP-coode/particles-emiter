@@ -42,7 +42,7 @@ export interface SystemConfig {
 export const defaultConfig: SystemConfig = {
   mouse: {
     forceMultipler: [1, 1],
-    mass: 20,
+    mass: 10,
     render: false,
   },
   particles: {
@@ -100,7 +100,7 @@ export class ParticlesSystem {
 
     const massiveMouse = new MassiveMouse(
       canvas,
-      10,
+      this.config.mouse.mass,
       this.config.mouse.forceMultipler
     );
     this.mouse = massiveMouse;
