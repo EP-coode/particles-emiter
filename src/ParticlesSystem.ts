@@ -20,6 +20,7 @@ export interface SystemConfig {
   mouse: {
     forceMultipler: [number, number];
     mass: number;
+    render: boolean;
   };
   particles: {
     count: number;
@@ -42,6 +43,7 @@ export const defaultConfig: SystemConfig = {
   mouse: {
     forceMultipler: [1, 1],
     mass: 20,
+    render: false,
   },
   particles: {
     count: 2000,
@@ -80,14 +82,21 @@ export class ParticlesSystem {
     config: Partial<SystemConfig>
   ) {
     this.config = Object.assign({}, defaultConfig, config);
-
     this.ctx = canvas.getContext("2d");
+
+    // ADJUST CANVAS RESOLUTION ON SIZE CHANGE
     this.resizeObserver = new ResizeObserver(() => {
       const boundingRect = canvas.getBoundingClientRect();
       canvas.width = boundingRect.width;
       canvas.height = boundingRect.height;
     });
     this.resizeObserver.observe(canvas);
+
+    this.canRespawn = false;
+    // this.state = "iddle";
+    this.animationFrame = null;
+    this.particles = [];
+    this.forceSources = [];
 
     const massiveMouse = new MassiveMouse(
       canvas,
@@ -96,12 +105,7 @@ export class ParticlesSystem {
     );
     this.mouse = massiveMouse;
 
-    this.canRespawn = false;
-    // this.state = "iddle";
-    this.animationFrame = null;
-    this.particles = [];
-    this.forceSources = [];
-
+    // GENERATE PARTICLES
     for (let i = 0; i < this.config.particles.count; i++) {
       const particle = new Particle(
         this.config.particles.colorChangeStrategy.getInitialColor(),
@@ -118,11 +122,12 @@ export class ParticlesSystem {
       this.respawnParticle(particle);
     }
 
+    // ADD FORCE SOURCE
     if (this.config.ambientForce) {
       this.forceSources.push(new AmbientForce(this.config.ambientForce));
     }
 
-    this.forceSources.push(massiveMouse);
+    if (this.config.mouse.mass != 0) this.forceSources.push(massiveMouse);
   }
 
   private getNetForce(masiveBody: IMassiveBody): [number, number] {
@@ -175,21 +180,21 @@ export class ParticlesSystem {
     ];
   }
 
-  // private renderMouse() {
-  //   if (!this.ctx || !this.mouse) return;
-  //   if (!this.mouse.position) return;
-  //   this.ctx.fillStyle = `hsl(10,100%,50%)`;
-  //   this.ctx.beginPath();
-  //   this.ctx.arc(
-  //     this.mouse.position[0],
-  //     this.mouse.position[1],
-  //     10,
-  //     0,
-  //     Math.PI * 2
-  //   );
-  //   this.ctx.fill();
-  //   this.ctx.closePath();
-  // }
+  private renderMouse() {
+    if (!this.ctx || !this.mouse) return;
+    if (!this.mouse.position) return;
+    this.ctx.fillStyle = `hsl(10,100%,50%)`;
+    this.ctx.beginPath();
+    this.ctx.arc(
+      this.mouse.position[0],
+      this.mouse.position[1],
+      10,
+      0,
+      Math.PI * 2
+    );
+    this.ctx.fill();
+    this.ctx.closePath();
+  }
 
   private update() {
     if (!this.ctx) return;
@@ -212,7 +217,7 @@ export class ParticlesSystem {
       particle.update(deltaT);
     }
 
-    // this.renderMouse();
+    if (this.config.mouse.render) this.renderMouse();
 
     this.lastFrameTime = new Date().getTime();
     this.animationFrame = requestAnimationFrame(this.update.bind(this));

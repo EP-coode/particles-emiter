@@ -59,18 +59,27 @@ export class Particle implements IMassiveBody, IForceSource {
   // -------------- Getters and Setters -----------------
 
   getForce(otherBody: IMassiveBody): [number, number] {
-    const [dx, dy] = [
+    if (!this.position) return [0, 0];
+
+    let [dx, dy] = [
       this.position[0] - otherBody.position[0],
       this.position[1] - otherBody.position[1],
     ];
 
-    // PREVENT SHOOTING INTO SPACE
-    if (dx < 1 || dy < 1) return [0, 0];
+    const scale = 0.01;
+    dx = dx * scale;
+    dy = dy * scale;
 
-    return [
-      (G * (this.mass * otherBody.mass)) / Math.pow(dx * dx, 2),
-      (G * (this.mass * otherBody.mass)) / Math.pow(dy * dy, 2),
+    // Prevent shoooting into space
+    const r = Math.max(Math.sqrt(dx * dx * dy * dy), 10);
+    const rSqr = r * r;
+
+    const force: [number, number] = [
+      (G * otherBody.mass * this.mass * (dx / r)) / rSqr,
+      (G * otherBody.mass * this.mass * (dy / r)) / rSqr,
     ];
+
+    return force;
   }
 
   update(deltaTimeMs: number) {
@@ -99,6 +108,6 @@ export class Particle implements IMassiveBody, IForceSource {
     ctx.beginPath();
     ctx.arc(this.position[0], this.position[1], this._size, 0, Math.PI * 2);
     ctx.fill();
-    ctx.closePath()
+    ctx.closePath();
   }
 }
