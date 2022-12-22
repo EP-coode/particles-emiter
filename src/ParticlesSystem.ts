@@ -37,6 +37,7 @@ export interface SystemConfig {
   };
   ambientForce?: [number, number];
   speed: number;
+  distanceScale: number;
 }
 
 export const defaultConfig: SystemConfig = {
@@ -60,6 +61,7 @@ export const defaultConfig: SystemConfig = {
   },
   ambientForce: [0.4, -0.3],
   speed: 0.5,
+  distanceScale: 1,
 };
 
 /* TODO:
@@ -101,7 +103,8 @@ export class ParticlesSystem {
     const massiveMouse = new MassiveMouse(
       canvas,
       this.config.mouse.mass,
-      this.config.mouse.forceMultipler
+      this.config.mouse.forceMultipler,
+      defaultConfig.distanceScale
     );
     this.mouse = massiveMouse;
 
@@ -115,7 +118,8 @@ export class ParticlesSystem {
         [-1000, -1000],
         [-1000, -1000],
         this.config.particles.colorChangeStrategy,
-        this.config.particles.sizeChangeStrategy
+        this.config.particles.sizeChangeStrategy,
+        defaultConfig.distanceScale
       );
 
       this.particles.push(particle);

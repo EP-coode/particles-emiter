@@ -25,14 +25,6 @@
     ".": {
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
-    },
-    "./SizeChange": {
-      "import": "./dist/SizeChange/index.js",
-      "types": "./dist/SizeChange/index.d.ts"
-    },
-    "./ColorSelection": {
-      "import": "./dist/ColorSelection/index.js",
-      "types": "./dist/ColorSelection/index.d.ts"
     }
   },
   "scripts": {

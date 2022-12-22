@@ -7,7 +7,8 @@ export class MassiveMouse extends Mouse implements IForceSource {
   constructor(
     relativeTo: HTMLElement,
     private mass: number,
-    private forceMultipler: [number, number]
+    private forceMultipler: [number, number],
+    private distanceScale: number
   ) {
     super(relativeTo);
   }
@@ -20,12 +21,11 @@ export class MassiveMouse extends Mouse implements IForceSource {
       this.position[1] - otherBody.position[1],
     ];
 
-    const scale = 0.01;
-    dx = dx * scale;
-    dy = dy * scale;
+    dx = dx * this.distanceScale;
+    dy = dy * this.distanceScale;
 
     // Prevent shoooting into space
-    const r = Math.max(Math.sqrt(dx * dx * dy * dy), 10);
+    const r = Math.max(Math.sqrt(dx * dx + dy * dy), 10);
     const rSqr = r * r;
 
     const force: [number, number] = [

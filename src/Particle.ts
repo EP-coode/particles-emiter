@@ -13,7 +13,8 @@ export class Particle implements IMassiveBody, IForceSource {
     private _v: [number, number] = [0, 0],
     private _f: [number, number] = [0, 0],
     private _colorSelectionStrategy: IColorSelectionStrategy,
-    private _sizeChangeStrategy: ISizeCahngeStrategy
+    private _sizeChangeStrategy: ISizeCahngeStrategy,
+    private _distanceScale: number
   ) {}
   // -------------- Getters and Setters -----------------
   public set position(newPosition: [number, number]) {
@@ -78,12 +79,11 @@ export class Particle implements IMassiveBody, IForceSource {
       this.position[1] - otherBody.position[1],
     ];
 
-    const scale = 0.01;
-    dx = dx * scale;
-    dy = dy * scale;
+    dx = dx * this._distanceScale;
+    dy = dy * this._distanceScale;
 
     // Prevent shoooting into space
-    const r = Math.max(Math.sqrt(dx * dx * dy * dy), 10);
+    const r = Math.max(Math.sqrt(dx * dx + dy * dy), 10);
     const rSqr = r * r;
 
     const force: [number, number] = [
