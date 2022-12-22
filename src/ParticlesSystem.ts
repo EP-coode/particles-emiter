@@ -8,6 +8,7 @@ import { Mouse } from "./Mouse/Mouse";
 import { Particle } from "./Particle";
 import { ISizeCahngeStrategy } from "./SizeChange/ISizeChangeStrategy";
 import { LinearChange } from "./SizeChange/LinearChange";
+import { debounce } from "./utlis/debounce";
 
 export enum SpawnStrategy {
   AT_MOUSE = "at_mouse",
@@ -87,11 +88,13 @@ export class ParticlesSystem {
     this.ctx = canvas.getContext("2d");
 
     // ADJUST CANVAS RESOLUTION ON SIZE CHANGE
-    this.resizeObserver = new ResizeObserver(() => {
-      const boundingRect = canvas.getBoundingClientRect();
-      canvas.width = boundingRect.width;
-      canvas.height = boundingRect.height;
-    });
+    this.resizeObserver = new ResizeObserver(
+      debounce(() => {
+        const boundingRect = canvas.getBoundingClientRect();
+        canvas.width = boundingRect.width;
+        canvas.height = boundingRect.height;
+      })
+    );
     this.resizeObserver.observe(canvas);
 
     this.canRespawn = false;
