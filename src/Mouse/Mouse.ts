@@ -1,6 +1,6 @@
 export class Mouse {
   private _relativePosition?: [number, number];
-  private _position?: [number, number];
+  private _position: [number, number] = [0,0];
   constructor(private relativeTo: HTMLElement) {}
 
   private onMouseMove = ({ clientX, clientY }: MouseEvent) => {

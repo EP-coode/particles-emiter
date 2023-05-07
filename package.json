@@ -1,10 +1,10 @@
 {
   "name": "@ep44/particles-emmiter",
-  "version": "0.0.21",
+  "version": "0.1.0",
   "keywords": [
     "particles",
     "emmiter",
-    "playground"
+    "experimental"
   ],
   "repository": {
     "type": "git",
@@ -14,23 +14,60 @@
     "access": "public",
     "@ep44:particles-emmiter": "https://www.npmjs.com/package/"
   },
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "license": "MIT",
-  "files": [
-    "dist/**/*"
-  ],
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
+  "sideEffects": false,
   "exports": {
-    "./package.json": "./package.json",
     ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/types/index.d.ts",
+      "node": "./dist/cjs/index.js",
+      "require": "./dist/cjs/index.js",
+      "es2015": "./dist/esm/index.js",
+      "default": "./dist/esm/index.js"
+    },
+    "./color-selection": {
+      "types": "./dist/types/ColorSelection/index.d.ts",
+      "node": "./dist/cjs/ColorSelection/index.js",
+      "require": "./dist/cjs/ColorSelection/index.js",
+      "es2015": "./dist/esm/ColorSelection/index.js",
+      "default": "./dist/esm/ColorSelection/index.js"
+    },
+    "./size-change": {
+      "types": "./dist/types/SizeChange/index.d.ts",
+      "node": "./dist/cjs/SizeChange/index.js",
+      "require": "./dist/cjs/SizeChange/index.js",
+      "es2015": "./dist/esm/SizeChange/index.js",
+      "default": "./dist/esm/SizeChange/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "typesVersions": {
+    ">=4.2": {
+      "*": [
+        "./dist/types/index.d.ts"
+      ],
+      "color-selection": [
+        "./dist/types/ColorSelection/index.d.ts"
+      ],
+      "size-change": [
+        "./dist/types/SizeChange/index.d.ts"
+      ]
     }
   },
+  "files": [
+    "dist/cjs/**/!(*.tsbuildinfo)",
+    "dist/esm/**/!(*.tsbuildinfo)",
+    "dist/types/**/!(*.tsbuildinfo)",
+    "src",
+    "package.json",
+    "README.md",
+    "tsconfig.json"
+  ],
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
-    "build:azure": "vite build",
-    "build:lib": "tsc",
+    "build": "tsc -p tsconfig.esm.json && tsc -p tsconfig.cjs.json && tsc -p tsconfig.types.json",
     "preview": "vite preview"
   },
   "devDependencies": {

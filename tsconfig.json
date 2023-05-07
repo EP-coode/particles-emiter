@@ -1,16 +1,24 @@
 {
   "compilerOptions": {
     "incremental": true,
-    "target": "ES5",
-    "module": "CommonJS",
-    "declaration": true,
-    "outDir": "dist",
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "lib": ["DOM", "ES5"]
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "moduleResolution": "node",
+    "stripInternal": true,
+    //"noEmit": true,
+    "lib": ["esnext", "dom"],
+    "types": [],
+    "target": "esnext",
+    "baseUrl": "./src",
+    "rootDir": "./src",
+    "paths": {
+      "some-particles": ["./src/index"],
+      "some-particles/color-selection": ["./src/ColorSelection/index"],
+      "some-particles/size-change": ["./src/SizeChange/index"]
+    }
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules/**", "src/examples/*"],
-  "compileOnSave": false
+  "include": ["./src/**/*", "tsconfig.types.json"],
 }

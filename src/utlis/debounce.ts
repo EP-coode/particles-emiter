@@ -2,7 +2,7 @@ export function debounce<Params extends any[]>(
     func: (...args: Params) => any,
     timeout = 300
   ) {
-    let timer: NodeJS.Timeout | null;
+    let timer: number | null;
   
     return (...args: Params) => {
       if (timer) clearTimeout(timer);
