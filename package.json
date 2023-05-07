@@ -1,6 +1,6 @@
 {
   "name": "@ep44/particles-emiter",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "keywords": [
     "particles",
     "emmiter",
@@ -67,7 +67,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -p tsconfig.esm.json && tsc -p tsconfig.cjs.json && tsc -p tsconfig.types.json",
+    "build:lib": "tsc -p tsconfig.esm.json && tsc -p tsconfig.cjs.json && tsc -p tsconfig.types.json",
+    "build:azure": "vite build",
     "preview": "vite preview"
   },
   "devDependencies": {
