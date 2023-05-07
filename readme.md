@@ -1,4 +1,4 @@
-# This is particles emitter library
-It allows you to create custom particle effects
+# Particles emitter
+It allows you to create custom particle effects with mouse interactions.
 
-# This is only my experiment with npm so this package may be messy and I will not support it.
+# This package serves as my experiemnt with building npm packages. Code will be messy, no tests nor documentation. I wil not support it. 
