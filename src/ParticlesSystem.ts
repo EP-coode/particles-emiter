@@ -8,7 +8,8 @@ import { Mouse } from "./Mouse/Mouse";
 import { Particle } from "./Particle";
 import { ISizeCahngeStrategy } from "./SizeChange/ISizeChangeStrategy";
 import { LinearChange } from "./SizeChange/LinearChange";
-import { debounce } from "./utlis/debounce";
+
+import { debounce, randomNormal2Dvector } from "./utlis";
 
 export enum SpawnStrategy {
   AT_MOUSE = "at_mouse",
@@ -53,8 +54,8 @@ export const defaultConfig: SystemConfig = {
     sizeChangeStrategy: new LinearChange(-15),
     colorChangeStrategy: new ColorRangeSelection([49, 100, 50], 0, 50, -50),
     spanwStrategy: SpawnStrategy.AT_MOUSE,
-    avgMass: 10,
-    respanwSpeedRange: 10,
+    avgMass: 100,
+    respanwSpeedRange: 5,
     respanwSizeRange: 10,
   },
   edges: {
@@ -179,11 +180,12 @@ export class ParticlesSystem {
         const { width, height } = this.canvas;
         particle.position = [width * Math.random(), height * Math.random()];
     }
-    particle.force = [0, 0];
-    const speedRange = this.config.particles.respanwSpeedRange;
+    particle.force = this.getNetForce(particle);
+    const speedValue = this.config.particles.respanwSpeedRange * Math.random();
+    const normalVector = randomNormal2Dvector();
     particle.velocity = [
-      Math.random() * speedRange - speedRange / 2,
-      Math.random() * speedRange - speedRange / 2,
+      normalVector[0] * speedValue,
+      normalVector[1] * speedValue,
     ];
     particle.currentColor = particle.colorSelectionStrategy.getInitialColor();
   }
