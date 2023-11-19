@@ -5,14 +5,18 @@ export class ColorRangeSelection implements IColorSelectionStrategy {
     private startColorHsl: [number, number, number],
     private hueStart: number,
     private hueEnd: number,
-    private hueStepPerSecond: number
+    private hueStepPerSecond: number,
+    private randomHueInit = true
   ) {}
   getInitialColor(): [number, number, number] {
-    return [
-      this.startColorHsl[0],
-      this.startColorHsl[1],
-      this.startColorHsl[2],
-    ];
+    if (this.randomHueInit) {
+      return this.getNextHslClor(10_000_000 * Math.random(), this.startColorHsl);
+    } else
+      return [
+        this.startColorHsl[0],
+        this.startColorHsl[1],
+        this.startColorHsl[2],
+      ];
   }
   getNextHslClor(
     deltaTime: number,
